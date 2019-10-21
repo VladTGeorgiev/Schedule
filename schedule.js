@@ -1,11 +1,14 @@
-const { hhmmToMins, minsToHhmmInInterval, hhmmToMinsInInterval } = require('../../timeDefinition.js');
+const { hhmmToMins } = require('./timeDefinition.js/index.js');
 const { schedules, startOfTheDay, endOfTheDay } = require('./env.js');
 
 const availableSlots = (schedules, duration) => {
 	const schedulesWithFreeSlots = schedules
 		.map((busySlots) => allocateFreeSlots(busySlots))
+		.map((freeSlots) => filterByDuration(freeSlots, duration));
 
-	console.log(schedulesWithFreeSlots);
+	const mergedfreeSlots = mergeSchedules(schedulesWithFreeSlots, duration);
+
+	console.log(mergedfreeSlots);
 };
 
 const allocateFreeSlots = (busySlotsExcludingWorkingDayTimes) => {
@@ -33,6 +36,10 @@ const allocateFreeSlots = (busySlotsExcludingWorkingDayTimes) => {
 	return freeSlots;
 };
 
-
+const filterByDuration = (freeSlots, duration) => {
+	return freeSlots.filter((freeSlot) => {
+		return hhmmToMins(freeSlot.to) - hhmmToMins(freeSlot.from) >= duration;
+	});
+};
 
 availableSlots(schedules, 60); // [ { from: '12:15', to: '13:30' } ]

@@ -1,43 +1,42 @@
-const hhmmToMins = (hhmm) => {
-	console.log(hhmm)
-	const [ hh, mm ] = hhmm.split(':');
-	const mins = parseInt(hh) * 60 + parseInt(mm);
+const timeToMins = (time) => {
+	const [ hour, min ] = time.split(':');
+	const mins = parseInt (hour) * 60 + parseInt(min);
 
 	return mins;
 };
 
-const minsToHhmm = (mins) => {
-	let hh = parseInt(mins / 60);
-	let mm = mins % 60;
+const timeToHours = (mins) => {
+	let hour = parseInt(mins / 60);
+	let min = mins % 60;
 
-	if (hh < 10) {
-		hh = `0${hh}`;
+	if (hour < 10) {
+		hour = `0${hour}`;
 	}
 
-	if (mm < 10) {
-		mm = `0${mm}`;
+	if (min < 10) {
+		min = `0${min}`;
 	}
 
-	return `${hh}:${mm}`;
+	return `${hour}:${min}`;
 };
 
-const minsToHhmmSlot = (slot) => {
+const timeToHoursSlot = (slot) => {
 	return {
-		from: minsToHhmm(slot.from),
-		to: minsToHhmm(slot.to)
+		from: timeToHours(slot.from),
+		to: timeToHours(slot.to)
 	};
 };
 
-const hhmmToMinsSlot = (slot) => {
+const timeToMinsSlot = (slot) => {
 	return {
-		from: hhmmToMins(slot.from),
-		to: hhmmToMins(slot.to)
+		from: timeToMins(slot.from),
+		to: timeToMins(slot.to)
 	};
 };
 
 module.exports = {
-    hhmmToMins,
-    hhmmToMinsSlot,
-    minsToHhmm,
-    minsToHhmmSlot
+    timeToMins,
+    timeToMinsSlot,
+    timeToHours,
+    timeToHoursSlot
 }
